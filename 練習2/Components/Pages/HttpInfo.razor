@@ -1,0 +1,38 @@
+﻿@page "/httpinfo"
+@inject IHttpContextAccessor HttpContextAccessor
+
+<h3>HttpContext 情報</h3>
+
+@if (isReady)
+{
+    <p><strong>IPアドレス：</strong> @ipAddress</p>
+    <p><strong>User-Agent：</strong> @userAgent</p>
+}
+else
+{
+    <p>読み込み中...</p>
+}
+
+@code {
+    private string ipAddress;
+    private string userAgent;
+    private bool isReady = false;
+
+    protected override void OnInitialized()
+    {
+        var context = HttpContextAccessor.HttpContext;
+
+        if (context != null)
+        {
+            ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "不明";
+            userAgent = context.Request.Headers["User-Agent"].ToString();
+        }
+        else
+        {
+            ipAddress = "取得できませんでした";
+            userAgent = "取得できませんでした";
+        }
+
+        isReady = true;
+    }
+}

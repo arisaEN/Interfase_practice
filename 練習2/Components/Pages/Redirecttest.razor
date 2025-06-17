@@ -1,0 +1,22 @@
+﻿@page "/redirecttest"
+@inject NavigationManager Navigation
+@inject IHttpContextAccessor HttpContextAccessor
+
+<h3>リダイレクトテスト</h3>
+
+<p>IP: @ipAddress</p>
+<p><button @onclick="Redirect">リダイレクト</button></p>
+
+@code {
+    private string ipAddress;
+
+    protected override void OnInitialized()
+    {
+        ipAddress = HttpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "取得できない";
+    }
+
+    private void Redirect()
+    {
+        Navigation.NavigateTo("/redirecttest", forceLoad: true); // リダイレクトで再読み込み
+    }
+}

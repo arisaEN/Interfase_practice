@@ -1,0 +1,17 @@
+﻿@page "/animal"
+@using 練習1.Components.Interface
+@inject IAnimal _animal
+
+<h3>動物の声</h3>
+
+<p>この動物はこう鳴きます：<strong>@message</strong></p>
+
+@code {
+    private string message;
+
+    protected override void OnInitialized()
+    {
+        // ここでは new せずに、注入されたインスタンスを使う！
+        message = _animal.Speak();
+    }
+}
